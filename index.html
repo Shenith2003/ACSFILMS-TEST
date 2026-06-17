@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ACS Films — Premium Movie & TV Series Streaming Platform. Watch the latest movies, TV shows, and exclusive content.">
+  <title>ACS Films — Premium Streaming</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body data-page="home">
+
+  <!-- ═══════════ NAVBAR ═══════════ -->
+  <nav class="navbar" id="navbar" aria-label="Main Navigation">
+    <a href="index.html" class="nav-logo" aria-label="ACS Films Home">
+      <span class="logo-acs">ACS</span><span class="logo-films"> Films</span>
+    </a>
+
+    <div class="nav-links" role="menubar">
+      <a href="all-movies.html" class="nav-link" role="menuitem">All Movies</a>
+      <a href="all-movies.html?type=series" class="nav-link" role="menuitem">TV Series</a>
+
+      <div class="nav-dropdown-wrap" role="menuitem">
+        <button class="nav-link has-dropdown" aria-haspopup="true" aria-expanded="false">Genre</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="all-movies.html?filter=Action" role="menuitem">🎬 Action</a>
+          <a href="all-movies.html?filter=Thriller" role="menuitem">🔪 Thriller</a>
+          <a href="all-movies.html?filter=Sci-Fi" role="menuitem">🚀 Sci-Fi</a>
+          <a href="all-movies.html?filter=Drama" role="menuitem">🎭 Drama</a>
+          <a href="all-movies.html?filter=Horror" role="menuitem">👻 Horror</a>
+          <a href="all-movies.html?filter=Comedy" role="menuitem">😂 Comedy</a>
+          <a href="all-movies.html?filter=Romance" role="menuitem">💕 Romance</a>
+          <a href="all-movies.html?filter=Adventure" role="menuitem">🗺️ Adventure</a>
+          <a href="all-movies.html?filter=Crime" role="menuitem">🕵️ Crime</a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown-wrap" role="menuitem">
+        <button class="nav-link has-dropdown" aria-haspopup="true" aria-expanded="false">Languages</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="all-movies.html?lang=English" role="menuitem">🇺🇸 English</a>
+          <a href="all-movies.html?lang=French" role="menuitem">🇫🇷 French</a>
+          <a href="all-movies.html?lang=Spanish" role="menuitem">🇪🇸 Spanish</a>
+          <a href="all-movies.html?lang=Japanese" role="menuitem">🇯🇵 Japanese</a>
+          <a href="all-movies.html?lang=Korean" role="menuitem">🇰🇷 Korean</a>
+          <a href="all-movies.html?lang=German" role="menuitem">🇩🇪 German</a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown-wrap" role="menuitem">
+        <button class="nav-link has-dropdown" aria-haspopup="true" aria-expanded="false">Years</button>
+        <div class="nav-dropdown" role="menu">
+          <a href="all-movies.html?year=2024" role="menuitem">📅 2024</a>
+          <a href="all-movies.html?year=2023" role="menuitem">📅 2023</a>
+          <a href="all-movies.html?year=2022" role="menuitem">📅 2022</a>
+          <a href="all-movies.html?year=2021" role="menuitem">📅 2021</a>
+        </div>
+      </div>
+
+      <a href="all-movies.html?collection=top" class="nav-link" role="menuitem">Collections</a>
+
+      <a href="#" class="nav-link nav-account nav-account-link" id="navAccountLink" role="menuitem" style="display:none;">
+        👤 My Account
+      </a>
+    </div>
+
+    <div class="nav-right">
+      <div class="search-wrap" id="searchWrap" role="search">
+        <input class="search-input" type="text" placeholder="Search movies, series..." aria-label="Search" autocomplete="off">
+        <button class="search-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </div>
+      <div id="searchResults" class="search-results" role="listbox" aria-label="Search results"></div>
+
+      <div class="theme-toggle-wrap" title="Toggle Light/Dark Mode">
+        <label class="theme-toggle" aria-label="Theme toggle">
+          <input type="checkbox" class="theme-checkbox" aria-label="Toggle dark/light mode">
+          <span class="toggle-track"></span>
+          <span class="toggle-thumb"><span class="theme-icon">🌙</span></span>
+        </label>
+      </div>
+
+      <button class="btn-auth btn-auth-signin" aria-label="Sign In" onclick="Auth.open('signin')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v1h20v-1c0-3.3-6.7-5-10-5z"/></svg>
+        Sign In
+      </button>
+      <button class="btn-auth btn-logout btn-auth-logout" aria-label="Logout" style="display:none;">
+        <span class="btn-user-name"></span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.4 1.4 2.6 2.6H9v2h9.2l-2.6 2.6L17 17l5-5-5-5zm-5 10H5V7h7V5H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h7v-2z"/></svg>
+      </button>
+
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-search">
+      <input type="text" placeholder="Search movies, shows..." aria-label="Mobile search">
+      <button class="mobile-search-btn" aria-label="Search">🔍</button>
+    </div>
+    <a href="all-movies.html">🎬 All Movies</a>
+    <a href="all-movies.html?type=series">📺 TV Series</a>
+    <a href="all-movies.html?filter=Action">⚡ Action</a>
+    <a href="all-movies.html?filter=Thriller">🔪 Thriller</a>
+    <a href="all-movies.html?filter=Sci-Fi">🚀 Sci-Fi</a>
+    <a href="all-movies.html?filter=Drama">🎭 Drama</a>
+    <a href="contact.html">📧 Contact</a>
+    <a href="#" class="nav-account nav-account-link" style="display:none;">👤 My Account</a>
+    <button class="btn-auth-signin" onclick="Auth.open('signin')">Sign In / Sign Up</button>
+    <button class="btn-auth-logout" style="display:none;" onclick="Auth.logout()">Sign Out</button>
+  </div>
+
+  <!-- ═══════════ HERO SECTION ═══════════ -->
+  <section class="hero" id="heroSection" aria-label="Featured Content">
+    <div class="hero-bg" id="heroBg" role="img" aria-label="Hero background"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-badge" id="heroBadge">🔥 Trending Now</div>
+      <h1 class="hero-title" id="heroTitle">Loading...</h1>
+      <div class="hero-meta" id="heroMeta"></div>
+      <p class="hero-desc" id="heroDesc"></p>
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-lg" id="heroPlayBtn" aria-label="Play movie">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Play Now
+        </button>
+        <button class="btn btn-secondary btn-lg" id="heroInfoBtn" aria-label="More info">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          More Info
+        </button>
+      </div>
+    </div>
+    <div class="hero-indicators" id="heroIndicators" aria-label="Hero navigation">
+      <div class="hero-dot active" data-index="0" role="button" aria-label="Slide 1"></div>
+      <div class="hero-dot" data-index="1" role="button" aria-label="Slide 2"></div>
+      <div class="hero-dot" data-index="2" role="button" aria-label="Slide 3"></div>
+      <div class="hero-dot" data-index="3" role="button" aria-label="Slide 4"></div>
+      <div class="hero-dot" data-index="4" role="button" aria-label="Slide 5"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ STATS STRIP ═══════════ -->
+  <div class="stats-strip" aria-label="Platform statistics">
+    <div class="stat-item">
+      <div class="stat-num" aria-label="5000 plus titles">5,000+</div>
+      <div class="stat-label">Titles</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">150+</div>
+      <div class="stat-label">Countries</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4K</div>
+      <div class="stat-label">Ultra HD</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Support</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ TRENDING MOVIES ═══════════ -->
+  <section class="section" aria-labelledby="trendingTitle">
+    <div class="section-header">
+      <h2 class="section-title" id="trendingTitle">
+        <span class="section-title-bar" aria-hidden="true"></span>
+        🔥 Trending Movies
+      </h2>
+      <a href="all-movies.html" class="section-see-all" aria-label="See all trending movies">
+        <span>See All</span> →
+      </a>
+    </div>
+    <div class="slider-wrap">
+      <button class="slider-arrow prev" aria-label="Scroll left">&#8249;</button>
+      <div class="slider" id="trendingSlider" role="list" aria-label="Trending movies"></div>
+      <button class="slider-arrow next" aria-label="Scroll right">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- ═══════════ TV SERIES ═══════════ -->
+  <section class="section" aria-labelledby="tvTitle">
+    <div class="section-header">
+      <h2 class="section-title" id="tvTitle">
+        <span class="section-title-bar" aria-hidden="true"></span>
+        📺 Popular TV Series
+      </h2>
+      <a href="all-movies.html?type=series" class="section-see-all" aria-label="See all TV series">
+        <span>See All</span> →
+      </a>
+    </div>
+    <div class="slider-wrap">
+      <button class="slider-arrow prev" aria-label="Scroll left">&#8249;</button>
+      <div class="slider" id="tvSeriesSlider" role="list" aria-label="TV Series"></div>
+      <button class="slider-arrow next" aria-label="Scroll right">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- ═══════════ GENRE GRID ═══════════ -->
+  <section class="section" aria-labelledby="genreTitle">
+    <div class="section-header">
+      <h2 class="section-title" id="genreTitle">
+        <span class="section-title-bar" aria-hidden="true"></span>
+        🎭 Browse by Genre
+      </h2>
+    </div>
+    <div class="genre-grid">
+      <a href="all-movies.html?filter=Action" class="genre-card" style="background:linear-gradient(135deg,#E50914,#FF6B35)">
+        <div class="genre-card-overlay">⚡ Action</div>
+      </a>
+      <a href="all-movies.html?filter=Thriller" class="genre-card" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
+        <div class="genre-card-overlay" style="color:#8BFFF4">🔪 Thriller</div>
+      </a>
+      <a href="all-movies.html?filter=Sci-Fi" class="genre-card" style="background:linear-gradient(135deg,#0f3460,#533483)">
+        <div class="genre-card-overlay" style="color:#C8E6FF">🚀 Sci-Fi</div>
+      </a>
+      <a href="all-movies.html?filter=Drama" class="genre-card" style="background:linear-gradient(135deg,#6A1414,#9B2335)">
+        <div class="genre-card-overlay" style="color:#FFD6D6">🎭 Drama</div>
+      </a>
+      <a href="all-movies.html?filter=Horror" class="genre-card" style="background:linear-gradient(135deg,#111,#1C0A00)">
+        <div class="genre-card-overlay" style="color:#FF6B6B">👻 Horror</div>
+      </a>
+      <a href="all-movies.html?filter=Comedy" class="genre-card" style="background:linear-gradient(135deg,#F4900C,#E6A817)">
+        <div class="genre-card-overlay">😂 Comedy</div>
+      </a>
+      <a href="all-movies.html?filter=Romance" class="genre-card" style="background:linear-gradient(135deg,#C2185B,#880E4F)">
+        <div class="genre-card-overlay" style="color:#FFB3CE">💕 Romance</div>
+      </a>
+      <a href="all-movies.html?filter=Adventure" class="genre-card" style="background:linear-gradient(135deg,#1B5E20,#2E7D32)">
+        <div class="genre-card-overlay" style="color:#CCFFCC">🗺️ Adventure</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════ NEW RELEASES ═══════════ -->
+  <section class="section" aria-labelledby="newTitle">
+    <div class="section-header">
+      <h2 class="section-title" id="newTitle">
+        <span class="section-title-bar" aria-hidden="true"></span>
+        ✨ New Releases
+      </h2>
+      <a href="all-movies.html?year=2024" class="section-see-all">
+        <span>See All</span> →
+      </a>
+    </div>
+    <div class="slider-wrap">
+      <button class="slider-arrow prev" aria-label="Scroll left">&#8249;</button>
+      <div class="slider" id="newReleasesSlider" role="list" aria-label="New releases"></div>
+      <button class="slider-arrow next" aria-label="Scroll right">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- ═══════════ ACTION SECTION ═══════════ -->
+  <section class="section" aria-labelledby="actionTitle">
+    <div class="section-header">
+      <h2 class="section-title" id="actionTitle">
+        <span class="section-title-bar" aria-hidden="true"></span>
+        ⚡ Action & Thriller
+      </h2>
+      <a href="all-movies.html?filter=Action" class="section-see-all">
+        <span>See All</span> →
+      </a>
+    </div>
+    <div class="slider-wrap">
+      <button class="slider-arrow prev" aria-label="Scroll left">&#8249;</button>
+      <div class="slider" id="actionSlider" role="list" aria-label="Action movies"></div>
+      <button class="slider-arrow next" aria-label="Scroll right">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- ═══════════ SCI-FI SECTION ═══════════ -->
+  <section class="section" aria-labelledby="scifiTitle">
+    <div class="section-header">
+      <h2 class="section-title" id="scifiTitle">
+        <span class="section-title-bar" aria-hidden="true"></span>
+        🚀 Sci-Fi & Fantasy
+      </h2>
+      <a href="all-movies.html?filter=Sci-Fi" class="section-see-all">
+        <span>See All</span> →
+      </a>
+    </div>
+    <div class="slider-wrap">
+      <button class="slider-arrow prev" aria-label="Scroll left">&#8249;</button>
+      <div class="slider" id="scifiSlider" role="list" aria-label="Sci-Fi movies"></div>
+      <button class="slider-arrow next" aria-label="Scroll right">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- ═══════════ CTA BANNER ═══════════ -->
+  <section style="margin:60px 60px;padding:60px 50px;background:linear-gradient(135deg,rgba(229,9,20,0.15),rgba(100,0,50,0.2));border:1px solid rgba(229,9,20,0.2);border-radius:28px;text-align:center;position:relative;overflow:hidden;" aria-label="Sign up call to action">
+    <div style="position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(229,9,20,0.2),transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-60px;left:-60px;width:250px;height:250px;background:radial-gradient(circle,rgba(229,9,20,0.12),transparent 70%);pointer-events:none;"></div>
+    <div style="position:relative;z-index:1;">
+      <div style="font-size:2.8rem;margin-bottom:10px;">🎬</div>
+      <h2 style="font-size:clamp(1.5rem,3vw,2.4rem);font-weight:900;margin-bottom:12px;">Start Watching Today</h2>
+      <p style="color:var(--text-secondary);max-width:480px;margin:0 auto 28px;line-height:1.65;font-size:0.95rem;">Join millions of viewers enjoying unlimited movies and TV shows. No ads. No commitments. Cancel anytime.</p>
+      <button class="btn btn-primary btn-lg btn-auth-signin" onclick="Auth.open('signup')" aria-label="Get started free">Get Started Free →</button>
+    </div>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <div class="footer-logo"><span class="logo-acs" style="color:var(--accent)">ACS</span><span class="logo-films"> Films</span></div>
+        <p class="footer-desc">Your premium destination for cinematic excellence. Stream thousands of movies and TV series in stunning 4K quality, anytime, anywhere.</p>
+        <div class="footer-socials" aria-label="Social media links">
+          <a href="#" class="footer-social-btn" aria-label="Facebook">f</a>
+          <a href="#" class="footer-social-btn" aria-label="Twitter">𝕏</a>
+          <a href="#" class="footer-social-btn" aria-label="Instagram">📸</a>
+          <a href="#" class="footer-social-btn" aria-label="YouTube">▶</a>
+          <a href="#" class="footer-social-btn" aria-label="TikTok">♪</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Browse</h4>
+        <ul>
+          <li><a href="all-movies.html">All Movies</a></li>
+          <li><a href="all-movies.html?type=series">TV Series</a></li>
+          <li><a href="all-movies.html?filter=Action">Action</a></li>
+          <li><a href="all-movies.html?filter=Drama">Drama</a></li>
+          <li><a href="all-movies.html?filter=Sci-Fi">Sci-Fi</a></li>
+          <li><a href="all-movies.html?collection=top">Top Rated</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About ACS Films</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Help Center</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">DMCA Notice</a></li>
+          <li><a href="#">Accessibility</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-bottom-text">© 2024 ACS Films. All rights reserved. Designed & built with ❤️ for cinema lovers worldwide.</p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a href="#" style="font-size:0.8rem;color:var(--text-muted);transition:color 0.18s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">Privacy</a>
+        <a href="#" style="font-size:0.8rem;color:var(--text-muted);transition:color 0.18s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">Terms</a>
+        <a href="contact.html" style="font-size:0.8rem;color:var(--text-muted);transition:color 0.18s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════ AUTH OVERLAY ═══════════ -->
+  <div class="auth-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-label="Sign In / Sign Up">
+    <div class="auth-backdrop"></div>
+    <div class="auth-bg-image" style="background-image:url('https://images.pexels.com/photos/7991394/pexels-photo-7991394.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=900&w=1200')"></div>
+    <div class="auth-modal">
+      <button class="auth-close" aria-label="Close">✕</button>
+      <div class="auth-modal-logo">
+        <span style="color:var(--accent)">ACS</span> Films
+      </div>
+      <p class="auth-modal-sub">Your cinematic universe awaits.</p>
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab active" data-tab="signin" role="tab" aria-selected="true">Sign In</button>
+        <button class="auth-tab" data-tab="signup" role="tab" aria-selected="false">Sign Up</button>
+      </div>
+
+      <!-- Sign In Panel -->
+      <div class="auth-form-panel active" data-panel="signin" role="tabpanel">
+        <form id="signinForm" class="auth-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="siEmail">Email Address</label>
+            <input class="form-input" id="siEmail" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="siPass">Password</label>
+            <input class="form-input" id="siPass" type="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
+          </div>
+          <button type="submit" class="btn-form-submit">Sign In →</button>
+        </form>
+        <div class="auth-divider">or continue with</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="btn-social btn-google" aria-label="Sign in with Google">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Continue with Google
+          </button>
+          <button class="btn-social btn-apple" aria-label="Sign in with Apple">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.2 1.29-2.18 3.85.03 3.05 2.68 4.07 2.71 4.08-.03.07-.42 1.44-1.38 2.64M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            Continue with Apple
+          </button>
+        </div>
+        <p style="text-align:center;font-size:0.78rem;color:var(--text-muted);margin-top:8px;">By signing in, you agree to our <a href="#" style="color:var(--accent)">Terms</a> & <a href="#" style="color:var(--accent)">Privacy Policy</a>.</p>
+      </div>
+
+      <!-- Sign Up Panel -->
+      <div class="auth-form-panel" data-panel="signup" role="tabpanel">
+        <form id="signupForm" class="auth-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="suName">Full Name</label>
+            <input class="form-input" id="suName" type="text" name="name" placeholder="Your full name" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="suEmail">Email Address</label>
+            <input class="form-input" id="suEmail" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="suPass">Password</label>
+            <input class="form-input" id="suPass" type="password" name="password" placeholder="Create a strong password" required autocomplete="new-password">
+          </div>
+          <button type="submit" class="btn-form-submit">Create Account →</button>
+        </form>
+        <div class="auth-divider">or sign up with</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="btn-social btn-google" aria-label="Sign up with Google">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Sign up with Google
+          </button>
+          <button class="btn-social btn-apple" aria-label="Sign up with Apple">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.2 1.29-2.18 3.85.03 3.05 2.68 4.07 2.71 4.08-.03.07-.42 1.44-1.38 2.64M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            Sign up with Apple
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ ACCOUNT PANEL ═══════════ -->
+  <div id="accountOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1999;backdrop-filter:blur(4px);" aria-hidden="true"></div>
+  <aside class="account-panel" id="accountPanel" role="complementary" aria-label="My Account">
+    <div class="account-panel-header">
+      <h2>My Account</h2>
+      <button class="panel-close" aria-label="Close account panel">✕</button>
+    </div>
+    <div class="account-user-info">
+      <div class="user-avatar" aria-hidden="true">U</div>
+      <div>
+        <div class="user-name">User Name</div>
+        <div class="user-email">user@example.com</div>
+      </div>
+    </div>
+    <div class="account-tabs" role="tablist">
+      <button class="account-tab active" data-tab="history" role="tab" aria-selected="true">📺 Watch History</button>
+      <button class="account-tab" data-tab="watchlist" role="tab" aria-selected="false">🔖 Watchlist</button>
+    </div>
+    <div class="account-panel-body">
+      <div class="account-tab-panel active" data-panel="history" role="tabpanel">
+        <div id="historyList"></div>
+      </div>
+      <div class="account-tab-panel" data-panel="watchlist" role="tabpanel">
+        <div id="watchlistList"></div>
+      </div>
+    </div>
+    <div style="padding:20px 28px;border-top:1px solid var(--border-glass);flex-shrink:0;">
+      <button class="btn btn-ghost" style="width:100%;" onclick="Auth.logout()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.4 1.4 2.6 2.6H9v2h9.2l-2.6 2.6L17 17l5-5-5-5zm-5 10H5V7h7V5H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h7v-2z"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>

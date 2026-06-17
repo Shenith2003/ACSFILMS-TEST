@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact ACS Films — Get in touch with our support team, request movies, or find us on social media.">
+  <title>Contact Us — ACS Films</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    .map-placeholder {
+      width: 100%;
+      height: 260px;
+      background: linear-gradient(135deg, var(--bg-elevated), var(--bg-card));
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-glass);
+      position: relative;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    .map-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(229,9,20,0.12) 0%, transparent 60%),
+        repeating-linear-gradient(0deg, transparent, transparent 40px, var(--border-glass) 40px, var(--border-glass) 41px),
+        repeating-linear-gradient(90deg, transparent, transparent 40px, var(--border-glass) 40px, var(--border-glass) 41px);
+    }
+    .map-pin {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .map-pin-icon {
+      font-size: 2.5rem;
+      filter: drop-shadow(0 4px 12px rgba(229,9,20,0.5));
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .faq-item {
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 10px;
+      transition: border-color var(--transition-fast);
+    }
+    .faq-item:hover { border-color: var(--border-glass-hover); }
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: var(--surface-glass);
+      transition: background var(--transition-fast);
+      gap: 12px;
+    }
+    .faq-question:hover { background: var(--surface-glass-hover); }
+    .faq-arrow {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--accent);
+      transition: transform var(--transition-fast), background var(--transition-fast);
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); background: var(--accent); color: #fff; }
+    .faq-answer {
+      padding: 0 20px;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition-mid), padding var(--transition-mid);
+    }
+    .faq-item.open .faq-answer { max-height: 200px; padding: 16px 20px; }
+    .office-card {
+      background: var(--surface-glass);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: all var(--transition-fast);
+      position: relative;
+      overflow: hidden;
+    }
+    .office-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), #FF6B35);
+    }
+    .office-card:hover { border-color: var(--border-glass-hover); transform: translateY(-3px); box-shadow: var(--shadow-card); }
+    .contact-hero-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 80% 50%, rgba(229,9,20,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body data-page="contact">
+
+  <!-- ═══════════ NAVBAR ═══════════ -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-acs">ACS</span><span class="logo-films"> Films</span>
+    </a>
+    <div class="nav-links">
+      <a href="all-movies.html" class="nav-link">All Movies</a>
+      <a href="all-movies.html?type=series" class="nav-link">TV Series</a>
+      <div class="nav-dropdown-wrap">
+        <button class="nav-link has-dropdown">Genre</button>
+        <div class="nav-dropdown">
+          <a href="all-movies.html?filter=Action">⚡ Action</a>
+          <a href="all-movies.html?filter=Thriller">🔪 Thriller</a>
+          <a href="all-movies.html?filter=Sci-Fi">🚀 Sci-Fi</a>
+          <a href="all-movies.html?filter=Drama">🎭 Drama</a>
+          <a href="all-movies.html?filter=Horror">👻 Horror</a>
+        </div>
+      </div>
+      <div class="nav-dropdown-wrap">
+        <button class="nav-link has-dropdown">Languages</button>
+        <div class="nav-dropdown">
+          <a href="all-movies.html?lang=English">🇺🇸 English</a>
+          <a href="all-movies.html?lang=French">🇫🇷 French</a>
+          <a href="all-movies.html?lang=Spanish">🇪🇸 Spanish</a>
+        </div>
+      </div>
+      <a href="all-movies.html?year=2024" class="nav-link">Years</a>
+      <a href="all-movies.html?collection=top" class="nav-link">Collections</a>
+      <a href="#" class="nav-link active" style="color:var(--accent);">Contact</a>
+      <a href="#" class="nav-link nav-account nav-account-link" style="display:none;">👤 My Account</a>
+    </div>
+    <div class="nav-right">
+      <div class="search-wrap" id="searchWrap">
+        <input class="search-input" type="text" placeholder="Search..." aria-label="Search">
+        <button class="search-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </div>
+      <div id="searchResults" class="search-results"></div>
+      <label class="theme-toggle" aria-label="Toggle theme">
+        <input type="checkbox" class="theme-checkbox">
+        <span class="toggle-track"></span>
+        <span class="toggle-thumb"><span class="theme-icon">🌙</span></span>
+      </label>
+      <button class="btn-auth btn-auth-signin" onclick="Auth.open('signin')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v1h20v-1c0-3.3-6.7-5-10-5z"/></svg>
+        Sign In
+      </button>
+      <button class="btn-auth btn-logout btn-auth-logout" style="display:none;">
+        <span class="btn-user-name"></span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.4 1.4 2.6 2.6H9v2h9.2l-2.6 2.6L17 17l5-5-5-5zm-5 10H5V7h7V5H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h7v-2z"/></svg>
+      </button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-search">
+      <input type="text" placeholder="Search...">
+      <button class="mobile-search-btn">🔍</button>
+    </div>
+    <a href="index.html">🏠 Home</a>
+    <a href="all-movies.html">🎬 All Movies</a>
+    <a href="all-movies.html?type=series">📺 TV Series</a>
+    <a href="contact.html">📧 Contact</a>
+    <a href="#" class="nav-account nav-account-link" style="display:none;">👤 My Account</a>
+    <button class="btn-auth-signin" onclick="Auth.open('signin')">Sign In</button>
+    <button class="btn-auth-logout" style="display:none;" onclick="Auth.logout()">Sign Out</button>
+  </div>
+
+  <!-- ═══════════ CONTACT HERO ═══════════ -->
+  <div class="contact-page">
+    <div class="contact-hero" style="position:relative;">
+      <div class="contact-hero-bg" aria-hidden="true"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:5px 16px;background:var(--accent-subtle);border:1px solid rgba(229,9,20,0.25);border-radius:99px;font-size:0.78rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">
+          📧 Get In Touch
+        </div>
+        <h1 class="contact-hero-title">We'd Love to <span style="color:var(--accent)">Hear</span> From You</h1>
+        <p class="contact-hero-sub">Have a question, feedback, or want to request a specific movie? Our team is here to help. Reach out anytime — we're available 24/7.</p>
+        <div style="display:flex;gap:16px;margin-top:28px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text-muted);">
+            <span style="color:var(--accent)">✓</span> Response within 24 hours
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text-muted);">
+            <span style="color:var(--accent)">✓</span> Dedicated support team
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:0.85rem;color:var(--text-muted);">
+            <span style="color:var(--accent)">✓</span> Movie requests honored
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ CONTACT GRID ═══════════ -->
+    <div class="contact-grid">
+
+      <!-- ── Contact Info Card ── -->
+      <div class="contact-card">
+        <h2>Contact Information</h2>
+        <p class="contact-card-sub">Multiple ways to reach our team. Choose what's best for you.</p>
+
+        <div class="contact-info-item">
+          <div class="contact-icon" aria-hidden="true">📧</div>
+          <div class="contact-info-text">
+            <h4>Email Address</h4>
+            <p><a href="mailto:support@acsfilms.com" style="color:var(--accent);">support@acsfilms.com</a></p>
+            <p><a href="mailto:press@acsfilms.com" style="color:var(--text-muted);">press@acsfilms.com</a></p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-icon" aria-hidden="true">📞</div>
+          <div class="contact-info-text">
+            <h4>Phone Number</h4>
+            <p><a href="tel:+18005552765" style="color:var(--accent);">+1 (800) 555-2765</a></p>
+            <p style="font-size:0.78rem;color:var(--text-disabled);margin-top:2px;">Mon–Fri, 9am–8pm EST</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-icon" aria-hidden="true">📍</div>
+          <div class="contact-info-text">
+            <h4>Headquarters</h4>
+            <p>ACS Films Inc.<br>1250 Cinematic Boulevard, Suite 400<br>Los Angeles, CA 90028, USA</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-icon" aria-hidden="true">💬</div>
+          <div class="contact-info-text">
+            <h4>Live Chat</h4>
+            <p>Available for premium subscribers</p>
+            <button onclick="Toast.show('Live chat is available for premium subscribers! 💬','info')" style="margin-top:8px;padding:7px 16px;background:var(--accent);color:#fff;border:none;border-radius:99px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.18s;" onmouseover="this.style.background='var(--accent-hover)'" onmouseout="this.style.background='var(--accent)'">Start Chat →</button>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="map-placeholder" aria-label="Office location map">
+          <div class="map-pin">
+            <div class="map-pin-icon">📍</div>
+            <span>Los Angeles, CA · USA</span>
+          </div>
+        </div>
+
+        <!-- Social Links -->
+        <div style="margin-top:24px;">
+          <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:14px;">Follow ACS Films</h4>
+          <div class="social-links-grid">
+            <a href="#" class="social-link-card" aria-label="Twitter/X">
+              <span class="soc-icon">𝕏</span>
+              <span>Twitter / X</span>
+            </a>
+            <a href="#" class="social-link-card" aria-label="Instagram">
+              <span class="soc-icon">📸</span>
+              <span>Instagram</span>
+            </a>
+            <a href="#" class="social-link-card" aria-label="Facebook">
+              <span class="soc-icon">f</span>
+              <span>Facebook</span>
+            </a>
+            <a href="#" class="social-link-card" aria-label="YouTube">
+              <span class="soc-icon">▶</span>
+              <span>YouTube</span>
+            </a>
+            <a href="#" class="social-link-card" aria-label="TikTok">
+              <span class="soc-icon">♪</span>
+              <span>TikTok</span>
+            </a>
+            <a href="#" class="social-link-card" aria-label="Discord">
+              <span class="soc-icon">🎮</span>
+              <span>Discord</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Forms Card ── -->
+      <div style="display:flex;flex-direction:column;gap:28px;">
+
+        <!-- Contact Us Form -->
+        <div class="contact-card">
+          <h2>Send a Message</h2>
+          <p class="contact-card-sub">Fill out the form below and we'll respond within 24 hours.</p>
+
+          <form id="contactForm" class="contact-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="cname">Full Name *</label>
+                <input class="form-input" id="cname" type="text" name="cname" placeholder="John Doe" required autocomplete="name">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cemail">Email Address *</label>
+                <input class="form-input" id="cemail" type="email" name="cemail" placeholder="you@example.com" required autocomplete="email">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="csubject">Subject</label>
+              <select class="form-select" id="csubject" name="csubject">
+                <option value="">Select a topic...</option>
+                <option value="support">🛠️ Technical Support</option>
+                <option value="billing">💳 Billing Inquiry</option>
+                <option value="content">🎬 Content Question</option>
+                <option value="feedback">💡 Feedback</option>
+                <option value="dmca">⚖️ DMCA / Legal</option>
+                <option value="other">📌 Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cmessage">Your Message</label>
+              <textarea class="form-textarea" id="cmessage" name="cmessage" placeholder="Tell us how we can help you..." rows="5"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;padding:14px;" aria-label="Send message">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              Send Message
+            </button>
+          </form>
+        </div>
+
+        <!-- Request a Movie Form -->
+        <div class="contact-card" style="border-color:rgba(229,9,20,0.2);background:linear-gradient(135deg,var(--bg-card),rgba(229,9,20,0.03));">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+            <div style="font-size:1.8rem;">🎬</div>
+            <h2 style="margin-bottom:0;">Request a Movie or Show</h2>
+          </div>
+          <p class="contact-card-sub">Can't find what you're looking for? Let us know and we'll work on getting it added to our library!</p>
+
+          <form id="requestForm" class="contact-form" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="rtitle">Movie / Show Title *</label>
+              <input class="form-input" id="rtitle" type="text" name="rtitle" placeholder="e.g. Interstellar (2014)" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="rtype">Content Type</label>
+                <select class="form-select" id="rtype" name="rtype">
+                  <option value="movie">🎥 Movie</option>
+                  <option value="series">📺 TV Series</option>
+                  <option value="documentary">🎞️ Documentary</option>
+                  <option value="anime">🎌 Anime</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="rlang">Language</label>
+                <select class="form-select" id="rlang" name="rlang">
+                  <option value="English">🇺🇸 English</option>
+                  <option value="French">🇫🇷 French</option>
+                  <option value="Spanish">🇪🇸 Spanish</option>
+                  <option value="Japanese">🇯🇵 Japanese</option>
+                  <option value="Korean">🇰🇷 Korean</option>
+                  <option value="Other">🌍 Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="rreason">Why should we add it?</label>
+              <textarea class="form-textarea" id="rreason" name="rreason" rows="3" placeholder="Tell us why you'd like this content added... (optional)"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),#c4000f);" aria-label="Submit request">
+              🎬 Submit Request
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ OFFICE LOCATIONS ═══════════ -->
+    <section style="padding:0 60px 60px;max-width:1200px;margin:0 auto;" aria-labelledby="officesTitle">
+      <div style="margin-bottom:28px;">
+        <h2 style="font-size:1.6rem;font-weight:900;margin-bottom:8px;" id="officesTitle">Our Global Offices</h2>
+        <p style="color:var(--text-muted);font-size:0.875rem;">ACS Films operates across multiple continents, delivering cinematic experiences worldwide.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px;">
+        <div class="office-card">
+          <div style="font-size:1.8rem;margin-bottom:10px;">🇺🇸</div>
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:6px;">Los Angeles, USA</h3>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">1250 Cinematic Blvd, Suite 400<br>Los Angeles, CA 90028<br><a href="tel:+18005552765" style="color:var(--accent);">+1 (800) 555-2765</a></p>
+          <div style="margin-top:10px;font-size:0.75rem;color:var(--accent);font-weight:600;">🏠 Headquarters</div>
+        </div>
+        <div class="office-card">
+          <div style="font-size:1.8rem;margin-bottom:10px;">🇬🇧</div>
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:6px;">London, UK</h3>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">88 Soho Square, 3rd Floor<br>London, W1D 3QH<br><a href="tel:+442071234567" style="color:var(--accent);">+44 20 7123 4567</a></p>
+          <div style="margin-top:10px;font-size:0.75rem;color:var(--text-muted);font-weight:600;">🌍 European Hub</div>
+        </div>
+        <div class="office-card">
+          <div style="font-size:1.8rem;margin-bottom:10px;">🇯🇵</div>
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:6px;">Tokyo, Japan</h3>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">Shibuya Scramble Square 24F<br>2-24-12, Shibuya, Tokyo<br><a href="tel:+81334567890" style="color:var(--accent);">+81 3-3456-7890</a></p>
+          <div style="margin-top:10px;font-size:0.75rem;color:var(--text-muted);font-weight:600;">🌏 Asia Pacific</div>
+        </div>
+        <div class="office-card">
+          <div style="font-size:1.8rem;margin-bottom:10px;">🇫🇷</div>
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:6px;">Paris, France</h3>
+          <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.6;">15 Rue du Cinéma, 8e<br>75008 Paris<br><a href="tel:+33142345678" style="color:var(--accent);">+33 1 42 34 56 78</a></p>
+          <div style="margin-top:10px;font-size:0.75rem;color:var(--text-muted);font-weight:600;">🎬 Content Studio</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ FAQ ═══════════ -->
+    <section style="padding:0 60px 80px;max-width:800px;" aria-labelledby="faqTitle">
+      <div style="margin-bottom:28px;">
+        <h2 style="font-size:1.6rem;font-weight:900;margin-bottom:8px;" id="faqTitle">Frequently Asked Questions</h2>
+        <p style="color:var(--text-muted);font-size:0.875rem;">Quick answers to common questions about ACS Films.</p>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <div class="faq-question" onclick="toggleFAQ(this)" role="button" tabindex="0" aria-expanded="false">
+          <span>How do I create an account on ACS Films?</span>
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-answer">Click the "Sign In / Sign Up" button in the top navigation bar, then select the "Sign Up" tab. You can register with your email or use Google/Apple for a faster experience. Your account is created instantly!</div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <div class="faq-question" onclick="toggleFAQ(this)" role="button" tabindex="0" aria-expanded="false">
+          <span>Can I watch content in 4K Ultra HD?</span>
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-answer">Yes! ACS Films supports 4K Ultra HD, HDR10, and Dolby Vision for compatible devices. You'll need a stable internet connection of at least 25 Mbps for the best 4K streaming experience.</div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <div class="faq-question" onclick="toggleFAQ(this)" role="button" tabindex="0" aria-expanded="false">
+          <span>How do I save movies to my Watchlist?</span>
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-answer">Sign in to your account, then navigate to any movie or TV series page. Click the "+ Watchlist" button to save it. Access your entire Watchlist anytime via the "My Account" tab in the navigation bar.</div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <div class="faq-question" onclick="toggleFAQ(this)" role="button" tabindex="0" aria-expanded="false">
+          <span>Are subtitles and multiple languages available?</span>
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-answer">Absolutely! Most of our content supports multiple subtitle languages including English, French, Spanish, German, Japanese, and Korean. Use the subtitle button (CC) in the video player to toggle them on/off and switch languages.</div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <div class="faq-question" onclick="toggleFAQ(this)" role="button" tabindex="0" aria-expanded="false">
+          <span>How can I request a movie or TV show to be added?</span>
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-answer">Use the "Request a Movie or Show" form above on this page! We review all requests weekly and add the most-requested content to our library. Alternatively, email us at requests@acsfilms.com.</div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <div class="faq-question" onclick="toggleFAQ(this)" role="button" tabindex="0" aria-expanded="false">
+          <span>What devices are supported?</span>
+          <span class="faq-arrow">▾</span>
+        </div>
+        <div class="faq-answer">ACS Films works on all modern browsers across devices — desktop, laptop, tablet, and mobile. We support Chrome, Firefox, Safari, and Edge. Native apps for iOS, Android, Smart TVs, and streaming sticks are coming soon!</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <div class="footer-logo"><span style="color:var(--accent)">ACS</span> Films</div>
+        <p class="footer-desc">Your premium destination for cinematic excellence. Stream thousands of movies and TV series in stunning quality.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn" aria-label="Facebook">f</a>
+          <a href="#" class="footer-social-btn" aria-label="Twitter">𝕏</a>
+          <a href="#" class="footer-social-btn" aria-label="Instagram">📸</a>
+          <a href="#" class="footer-social-btn" aria-label="YouTube">▶</a>
+          <a href="#" class="footer-social-btn" aria-label="TikTok">♪</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Browse</h4>
+        <ul>
+          <li><a href="all-movies.html">All Movies</a></li>
+          <li><a href="all-movies.html?type=series">TV Series</a></li>
+          <li><a href="all-movies.html?filter=Action">Action</a></li>
+          <li><a href="all-movies.html?filter=Drama">Drama</a></li>
+          <li><a href="all-movies.html?collection=top">Top Rated</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About ACS Films</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="#">Press Room</a></li>
+          <li><a href="#">Help Center</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">DMCA Notice</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-bottom-text">© 2024 ACS Films. All rights reserved. Made with ❤️ for cinema lovers.</p>
+    </div>
+  </footer>
+
+  <!-- Auth Overlay -->
+  <div class="auth-overlay" id="authOverlay" role="dialog" aria-modal="true">
+    <div class="auth-backdrop"></div>
+    <div class="auth-bg-image" style="background-image:url('https://images.pexels.com/photos/7991394/pexels-photo-7991394.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=900&w=1200')"></div>
+    <div class="auth-modal">
+      <button class="auth-close">✕</button>
+      <div class="auth-modal-logo"><span style="color:var(--accent)">ACS</span> Films</div>
+      <p class="auth-modal-sub">Your cinematic universe awaits.</p>
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab active" data-tab="signin">Sign In</button>
+        <button class="auth-tab" data-tab="signup">Sign Up</button>
+      </div>
+      <div class="auth-form-panel active" data-panel="signin">
+        <form id="signinForm" class="auth-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="siEmail">Email</label>
+            <input class="form-input" id="siEmail" type="email" name="email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="siPass">Password</label>
+            <input class="form-input" id="siPass" type="password" name="password" placeholder="Password" required>
+          </div>
+          <button type="submit" class="btn-form-submit">Sign In →</button>
+        </form>
+        <div class="auth-divider">or</div>
+        <button class="btn-social btn-google">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Google
+        </button>
+      </div>
+      <div class="auth-form-panel" data-panel="signup">
+        <form id="signupForm" class="auth-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="suName">Name</label>
+            <input class="form-input" id="suName" type="text" name="name" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="suEmail">Email</label>
+            <input class="form-input" id="suEmail" type="email" name="email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="suPass">Password</label>
+            <input class="form-input" id="suPass" type="password" name="password" placeholder="Create password" required>
+          </div>
+          <button type="submit" class="btn-form-submit">Create Account →</button>
+        </form>
+        <button class="btn-social btn-google" style="margin-top:10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          Google
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Account Panel -->
+  <div id="accountOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1999;backdrop-filter:blur(4px);"></div>
+  <aside class="account-panel" id="accountPanel">
+    <div class="account-panel-header">
+      <h2>My Account</h2>
+      <button class="panel-close">✕</button>
+    </div>
+    <div class="account-user-info">
+      <div class="user-avatar">U</div>
+      <div>
+        <div class="user-name">User Name</div>
+        <div class="user-email">user@example.com</div>
+      </div>
+    </div>
+    <div class="account-tabs">
+      <button class="account-tab active" data-tab="history">📺 History</button>
+      <button class="account-tab" data-tab="watchlist">🔖 Watchlist</button>
+    </div>
+    <div class="account-panel-body">
+      <div class="account-tab-panel active" data-panel="history"><div id="historyList"></div></div>
+      <div class="account-tab-panel" data-panel="watchlist"><div id="watchlistList"></div></div>
+    </div>
+    <div style="padding:20px 28px;border-top:1px solid var(--border-glass);">
+      <button class="btn btn-ghost" style="width:100%;" onclick="Auth.logout()">Sign Out</button>
+    </div>
+  </aside>
+
+  <script src="script.js"></script>
+  <script>
+    function toggleFAQ(el) {
+      const item = el.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.faq-item.open').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      });
+      // Open clicked if it wasn't open
+      if (!isOpen) {
+        item.classList.add('open');
+        el.setAttribute('aria-expanded', 'true');
+      }
+    }
+    // Also allow keyboard access
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFAQ(q); } });
+    });
+  </script>
+</body>
+</html>
